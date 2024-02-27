@@ -1,14 +1,38 @@
-import React from "react";
-import "./SentimentNPC.css"; // Make sure to create this CSS file
+import React, { useState, useEffect } from "react";
+import "./SentimentNPC.css";
 
 function SentimentNPC({ sentiment }) {
-  // Adjust styles based on sentiment
+  const [isVisible, setIsVisible] = useState(false);
+
+  useEffect(() => {
+    const handleScroll = () => {
+      const npcPosition = document
+        .querySelector(".npc")
+        .getBoundingClientRect().top;
+      const windowHeight = window.innerHeight;
+
+      if (npcPosition < windowHeight) {
+        setIsVisible(true);
+      } else {
+        setIsVisible(false);
+      }
+    };
+
+    window.addEventListener("scroll", handleScroll);
+
+    return () => {
+      window.removeEventListener("scroll", handleScroll);
+    };
+  }, []);
+
   const npcStyles = {
-    transform: `scale(${1 + sentiment * 0.1})`, // Scales up or down based on sentiment
+    transform: `scale(${1 + sentiment * 2})`,
+    opacity: isVisible ? 1 : 0,
+    transition: "opacity 1s ease-in-out",
   };
+
   const eyeStyles = {
-    // Adjust the position of the eyes based on sentiment
-    transform: `translateY(${sentiment * 10}px)`,
+    transform: `translateY(${sentiment * 15}px)`,
   };
 
   return (

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import TopicInput from "./TopicInput";
 import QuestionsDisplay from "./QuestionsDisplay";
 import SentimentNPC from "./SentimentNPC";
@@ -8,6 +8,9 @@ import CanvasComponent from "./CanvasComponent";
 import ReactQuill from "react-quill";
 import "react-quill/dist/quill.snow.css";
 import BubbleEffect from "./BubbleEffect";
+import PersonalInfoInput from "./PersonalInfoInput";
+import BigNPC from "./BigNPC";
+
 // import "./demo.css";
 
 function App() {
@@ -15,10 +18,12 @@ function App() {
   const [answers, setAnswers] = useState([]);
   const [currentInput, setCurrentInput] = useState("");
   const [currentQuestion, setCurrentQuestion] = useState("");
-  const [currentSentiment, setCurrentSentiment] = useState(0);
+  const [currentSentiment, setCurrentSentiment] = useState(0.5);
   const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
   const [keywordsCount, setKeywordsCount] = useState({});
   const [summary, setSummary] = useState(""); // 用于存储摘要的状态
+  const [contentVisible, setContentVisible] = useState(false);
+  const [summaryVisible, setSummaryVisible] = useState(false);
 
   // Function to fetch generated questions from the backend based on the topic
   const fetchGeneratedQuestions = async (topic) => {
@@ -120,6 +125,7 @@ function App() {
       console.error("Error generating summary:", error);
     }
   };
+
   // Function to get a random color
   const getRandomColor = () => {
     const letters = "0123456789ABCDEF";
@@ -130,20 +136,59 @@ function App() {
     return color;
   };
 
+  useEffect(() => {
+    const handleScroll = () => {
+      const contentPosition = document
+        .querySelector(".main-content")
+        .getBoundingClientRect().top;
+      const summaryPosition = document
+        .querySelector(".summary-section")
+        .getBoundingClientRect().top;
+      const windowHeight = window.innerHeight;
+
+      if (contentPosition < windowHeight) {
+        setContentVisible(true);
+      }
+
+      if (summaryPosition < windowHeight) {
+        setSummaryVisible(true);
+      }
+    };
+
+    window.addEventListener("scroll", handleScroll);
+
+    return () => {
+      window.removeEventListener("scroll", handleScroll);
+    };
+  }, []);
+
   return (
     <div className="App">
       <Particles />
       <CanvasComponent /> {/* This is the background canvas */}
+      <div className="big-npc">
+        <BigNPC />
+      </div>
       <section className=" project-title">
         <div class="title-content">
           <h2>Smart Questionaire</h2>
           <h2>Smart Questionaire</h2>
         </div>
       </section>
-      <div className="main-content">
+      <div className="auther-container">
+        <h2>Designed by Chengpu Liao, Zayn Huang, Felix Sun</h2>
+      </div>
+      <div
+        className={`main-content ${
+          contentVisible ? "slide-in visible" : "slide-in"
+        }`}
+      >
         <div className="content-1">
           <div className="topic-input-wrapper">
             <TopicInput onGenerate={fetchGeneratedQuestions} />
+          </div>
+          <div className="Greetings">
+            <PersonalInfoInput className="type-3" />
           </div>
           <div className="questions-display-wrapper">
             <QuestionsDisplay
@@ -161,7 +206,9 @@ function App() {
               <p>{currentQuestion}</p>
             </div>
           </div>
-
+          <div className="sentiment-container">
+            <SentimentNPC sentiment={currentSentiment} />
+          </div>
           <div className="chatbox">
             <div className="chat-area">
               <ReactQuill
@@ -175,7 +222,6 @@ function App() {
               Submit Answer
             </button>
           </div>
-          <SentimentNPC sentiment={currentSentiment} />
         </div>
         <div className="keywords-summary">
           <div className="keywords-title">
@@ -195,7 +241,11 @@ function App() {
             </div>
           </div>
         </div>
-        <div className="summary-section">
+        <div
+          className={`summary-section ${
+            summaryVisible ? "slide-in visible" : "slide-in"
+          }`}
+        >
           <div className="summary-title">
             {currentQuestionIndex >= questions.length - 1 && (
               <button className="loginBtn" onClick={handleGenerateSummary}>

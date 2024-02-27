@@ -18,7 +18,7 @@ const BubbleEffect = () => {
     const randRange = (min, max) => Math.random() * (max - min) + min;
 
     const bubble = (x, y, rect, hue, target) => {
-      const size = randRange(5, rect.width / 300);
+      const size = randRange(10, rect.width / 20);
       const circleHue = hue + randRange(-20, 20);
       const animDuration = randRange(clip(size ** 2 / 1000, 1), 6);
       const zIndex = Math.random() < 0.1 ? 2 : -1;

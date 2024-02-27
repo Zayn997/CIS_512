@@ -159,7 +159,7 @@ body {
 }
 
 .g-title:hover {
-  font-size: 22px;
+  font-size: 24px;
   color: rgba(89, 140, 236, 0.562);
   transition: all 0.4s ease-in-out;
 }
