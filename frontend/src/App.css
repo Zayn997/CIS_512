@@ -436,3 +436,7 @@ button:active::before {
 
 .big-npc {
 }
+
+.matrix {
+  margin-top: 5%;
+}

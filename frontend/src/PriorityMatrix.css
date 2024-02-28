@@ -1,0 +1,21 @@
+/* PriorityMatrix.css */
+
+.priority-matrix {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.priority-matrix th,
+.priority-matrix td {
+  border: 1px solid #ddd;
+  padding: 8px;
+  text-align: left;
+}
+
+.priority-matrix .urgent {
+  background-color: #f88;
+}
+
+.priority-matrix .not-urgent {
+  background-color: #8f8;
+}

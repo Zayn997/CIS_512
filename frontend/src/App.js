@@ -24,6 +24,7 @@ function App() {
   const [summary, setSummary] = useState(""); // 用于存储摘要的状态
   const [contentVisible, setContentVisible] = useState(false);
   const [summaryVisible, setSummaryVisible] = useState(false);
+  const [priorityMatrix, setPriorityMatrix] = useState("");
 
   // Function to fetch generated questions from the backend based on the topic
   const fetchGeneratedQuestions = async (topic) => {
@@ -123,6 +124,27 @@ function App() {
       setSummary(data.summary); // Update the state with the summary
     } catch (error) {
       console.error("Error generating summary:", error);
+    }
+  };
+
+  const fetchPriorityMatrix = async () => {
+    const user_answers = answers.map((answerObj) => answerObj.text);
+
+    try {
+      const response = await fetch(
+        "http://127.0.0.1:5000/generatePriorityMatrix",
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({ text: user_answers }),
+        }
+      );
+      const data = await response.json();
+      setPriorityMatrix(data.priorityMatrix);
+    } catch (error) {
+      console.error("Error fetching priority matrix:", error);
     }
   };
 
@@ -261,6 +283,12 @@ function App() {
               </div>
             )}
           </div>
+        </div>
+        <div className="matrix">
+          <button onClick={fetchPriorityMatrix}>
+            Generate Priority Matrix
+          </button>
+          {priorityMatrix && <div>{priorityMatrix}</div>}
         </div>
       </div>
     </div>

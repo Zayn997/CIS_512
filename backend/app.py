@@ -6,7 +6,9 @@ app = Flask(__name__)
 CORS(app)
 
 # Set your OpenAI API key here
-openai.api_key = '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'
+openai.api_key = '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'
+user_answers = []
+
 
 # @app.route('/generateQuestions', methods=['POST'])
 # def generate_questions():
@@ -81,6 +83,7 @@ def generate_questions():
 def analyze_sentiment():
     data = request.json
     text = data.get('text')
+    user_answers.append(text)
 
     try:
         response = openai.ChatCompletion.create(
@@ -100,6 +103,7 @@ def analyze_sentiment():
 def extract_keywords():
     data = request.json
     answer = data.get('answer')
+    user_answers.append(answer)
 
     try:
         response = openai.ChatCompletion.create(
@@ -116,6 +120,24 @@ def extract_keywords():
         # Split the string by newlines and then by the period to extract just the keyword
         keywords = [kw.strip().split('. ')[1] for kw in keyword_string.split('\n') if '. ' in kw]
         return jsonify({'keywords': keywords})
+    except Exception as e:
+        return jsonify({'error': str(e)}), 500
+    
+@app.route('/generatePriorityMatrix', methods=['POST'])
+def generate_priority_matrix():
+    combined_answers = " ".join(user_answers)
+
+    try:
+        response = openai.ChatCompletion.create(
+            model="gpt-3.5-turbo",
+            messages=[
+                {"role": "system", "content": "You are a helpful assistant."},
+                {"role": "user", "content": f"Based on the user's answers: {combined_answers}, generate a priority matrix for UX research,just show the json form of matrix"},
+            ],
+            temperature=0.5
+        )
+        priority_matrix = response.choices[0].message.content.strip()
+        return jsonify({'priorityMatrix': priority_matrix})
     except Exception as e:
         return jsonify({'error': str(e)}), 500
     
