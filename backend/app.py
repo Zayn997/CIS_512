@@ -141,6 +141,25 @@ def generate_priority_matrix():
     except Exception as e:
         return jsonify({'error': str(e)}), 500
     
+# generate diagram
+@app.route('/generateAffinityDiagram', methods=['POST'])
+def generate_affinity_diagram():
+    final_answers = " ".join(user_answers)
+
+    try:
+        response = openai.ChatCompletion.create(
+            model="gpt-3.5-turbo",
+            messages=[
+                {"role": "system", "content": "You are a helpful assistant."},
+                {"role": "user", "content": f"Generate an affinity diagram based on the following user answers: {final_answers}, return the answer in a json format", },
+            ],
+            temperature=0.5
+        )
+        affinity_diagram = response.choices[0].message.content.strip()
+        return jsonify({'affinity_diagram': affinity_diagram})
+    except Exception as e:
+        return jsonify({'error': str(e)}), 500
+    
 
 @app.route('/summarizeAnswers', methods=['POST'])
 def summarize_answers():
