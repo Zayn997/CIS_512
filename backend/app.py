@@ -144,6 +144,8 @@ def generate_priority_matrix():
 # generate diagram
 @app.route('/generateAffinityDiagram', methods=['POST'])
 def generate_affinity_diagram():
+    data = request.json
+    user_answers = data.get('text')
     final_answers = " ".join(user_answers)
 
     try:
@@ -151,12 +153,20 @@ def generate_affinity_diagram():
             model="gpt-3.5-turbo",
             messages=[
                 {"role": "system", "content": "You are a helpful assistant."},
-                {"role": "user", "content": f"Generate an affinity diagram based on the following user answers: {final_answers}, return the answer in a json format", },
+                {"role": "user", "content": f"Generate an affinity diagram based on the user answers: {final_answers}, and return the answer in a json format"},
             ],
             temperature=0.5
         )
+        # Parse the response to extract the JSON-formatted affinity diagram
         affinity_diagram = response.choices[0].message.content.strip()
-        return jsonify({'affinity_diagram': affinity_diagram})
+        try:
+            # Attempt to convert the response into a JSON object
+            affinity_diagram_json = json.loads(affinity_diagram)
+        except json.JSONDecodeError:
+            # If the response is not valid JSON, return an error message
+            return jsonify({'error': 'The response from OpenAI is not in valid JSON format'}), 500
+
+        return jsonify({'affinity_diagram': affinity_diagram_json})
     except Exception as e:
         return jsonify({'error': str(e)}), 500
     
