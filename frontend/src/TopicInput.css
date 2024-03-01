@@ -1,7 +1,7 @@
 .search-box {
   /* 绝对定位 水平垂直居中 */
   position: absolute;
-  top: 44%;
+  top: 42%;
   left: 50%;
   transform: translate(-50%, -50%);
   background: #49375e;

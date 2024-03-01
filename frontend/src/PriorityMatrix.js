@@ -1,9 +1,11 @@
-import React from "react";
+import React, { useState } from "react";
 import "./PriorityMatrix.css";
 
-function PriorityMatrix({ matrix }) {
-  const [priorityMatrix, setPriorityMatrix] = useState("");
+function PriorityMatrix({ answers }) {
+  const [priorityMatrix, setPriorityMatrix] = useState(null);
+
   const fetchPriorityMatrix = async () => {
+    const user_answers = answers.map((answer) => answer.text);
     try {
       const response = await fetch(
         "http://127.0.0.1:5000/generatePriorityMatrix",
@@ -23,26 +25,33 @@ function PriorityMatrix({ matrix }) {
   };
 
   return (
-    <table className="priority-matrix">
-      <thead>
-        <tr>
-          <th>Item</th>
-          <th>Urgent</th>
-          <th>Not Urgent</th>
-        </tr>
-      </thead>
-      <tbody>
-        {matrix.map((item, index) => (
-          <tr key={index}>
-            <td>{item.name}</td>
-            <td className={item.priority === "Urgent" ? "urgent" : ""}></td>
-            <td
-              className={item.priority === "Not Urgent" ? "not-urgent" : ""}
-            ></td>
-          </tr>
-        ))}
-      </tbody>
-    </table>
+    <div className="priority-matrix-section">
+      <button onClick={fetchPriorityMatrix}>Generate Priority Matrix</button>
+      {priorityMatrix && (
+        <div className="priority-matrix">
+          {/* Assuming the priority matrix data is a 2D array */}
+          <table>
+            <thead>
+              <tr>
+                <th>Criteria</th>
+                <th>High Priority</th>
+                <th>Medium Priority</th>
+                <th>Low Priority</th>
+              </tr>
+            </thead>
+            <tbody>
+              {priorityMatrix.map((row, index) => (
+                <tr key={index}>
+                  {row.map((cell, cellIndex) => (
+                    <td key={cellIndex}>{cell}</td>
+                  ))}
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+      )}
+    </div>
   );
 }
 

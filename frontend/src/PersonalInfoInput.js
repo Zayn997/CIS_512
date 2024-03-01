@@ -2,9 +2,11 @@ import React, { useState } from "react";
 import ReactQuill from "react-quill";
 import "react-quill/dist/quill.snow.css";
 import "./PersonalInfoInput.css"; // Import the CSS file for styling
+import { useNavigate } from "react-router-dom";
 
 function PersonalInfoInput({ personalInfo, setPersonalInfo }) {
   const [greeting, setGreeting] = useState("");
+  const navigate = useNavigate();
 
   const fetchGreeting = async (personalInfo) => {
     try {
@@ -22,8 +24,17 @@ function PersonalInfoInput({ personalInfo, setPersonalInfo }) {
     }
   };
 
-  const handleFormSubmit = () => {
+  // const handleFormSubmit = () => {
+  //   fetchGreeting(personalInfo);
+  // };
+
+  // const handlePersonalInfoSubmit = () => {
+  //   history.push("/personal-info", { personalInfo });
+  // };
+
+  const handleSubmit = () => {
     fetchGreeting(personalInfo);
+    navigate.push("/personal-info", { personalInfo });
   };
 
   return (
@@ -40,7 +51,7 @@ function PersonalInfoInput({ personalInfo, setPersonalInfo }) {
           Please enter your personal information
         </span>
       </div>
-      <button className="submit-button" onClick={handleFormSubmit}>
+      <button className="submit-button" onClick={handleSubmit}>
         Submit Info
       </button>
       {greeting && (

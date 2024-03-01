@@ -267,12 +267,18 @@ button:active::before {
   color: rgb(6, 79, 148);
   height: 150px;
   border-radius: 16px;
-  background-color: rgba(157, 181, 241, 0.452);
+  /* background-color: rgba(157, 181, 241, 0.452); */
   display: flex;
   justify-content: center;
   flex-direction: column;
   align-items: center;
   transition: transform 0.3s ease; /* For potential transform effects */
+}
+
+.current-q {
+  background-color: rgba(157, 181, 241, 0.452);
+  padding: 15px;
+  border-radius: 16px;
 }
 
 .chat-area {
@@ -327,7 +333,7 @@ button:active::before {
   /* width: 600px; */
   height: 100px;
   border-radius: 16px;
-  background-color: rgba(74, 112, 207, 0.774);
+  /* background-color: rgba(74, 112, 207, 0.774); */
   color: white;
   display: flex;
   justify-content: center;
@@ -350,6 +356,9 @@ button:active::before {
 
 .summary-text {
   position: relative; /* 为了使 .lit-container 能够绝对定位于其内部 */
+  background-color: rgba(74, 112, 207, 0.774);
+  padding: 15px;
+  border-radius: 16px;
 }
 
 .summary-content:hover {

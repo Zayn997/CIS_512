@@ -163,7 +163,9 @@ def generate_affinity_diagram():
             temperature=0.5
         )
         # Parse the response to extract the JSON-formatted affinity diagram
-        affinity_diagram = response.choices[0].message.content.strip()
+        affinity_diagram_json = response.choices[0].message.content.strip()
+        # Convert the JSON string to a Python dictionary
+        affinity_diagram = json.loads(affinity_diagram_json)
         return jsonify({'affinity_diagram': affinity_diagram})
     except Exception as e:
         return jsonify({'error': str(e)}), 500
@@ -211,6 +213,25 @@ def generate_greetings():
         return jsonify({'personalInfo': personalInfo})
     except Exception as e:
         return jsonify({'error': str(e)}), 500
+    
+
+@app.route('/generateComparisonData', methods=['POST'])
+def generate_comparison_data():
+    data = request.json
+    answers = data.get('text', [])
+
+    # Count the occurrences of each answer
+    answer_counts = {}
+    for answer in answers:
+        if answer in answer_counts:
+            answer_counts[answer] += 1
+        else:
+            answer_counts[answer] = 1
+
+    # Convert the answer counts to the expected format
+    insights = [{"question": answer, "answerCount": count} for answer, count in answer_counts.items()]
+
+    return jsonify({'insights': insights})
 
 
 if __name__ == '__main__':
