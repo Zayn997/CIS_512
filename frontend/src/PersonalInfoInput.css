@@ -64,3 +64,14 @@
   border-style: solid;
   border-color: transparent transparent #f0f0f0 transparent;
 }
+
+.container {
+  padding: 10px;
+  background-image: linear-gradient(
+    100deg,
+    rgba(218, 178, 255, 0.856) 0%,
+    rgba(142, 197, 252, 0.75) 100%
+  );
+  height: 600px;
+  border-radius: 10px;
+}

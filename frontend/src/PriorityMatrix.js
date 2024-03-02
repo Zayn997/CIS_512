@@ -26,7 +26,9 @@ function PriorityMatrix({ answers }) {
 
   return (
     <div className="priority-matrix-section">
-      <button onClick={fetchPriorityMatrix}>Generate Priority Matrix</button>
+      <button className="loginBtn" onClick={fetchPriorityMatrix}>
+        Generate Priority Matrix
+      </button>
       {priorityMatrix && (
         <div className="priority-matrix">
           {/* Assuming the priority matrix data is a 2D array */}

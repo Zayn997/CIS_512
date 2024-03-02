@@ -26,7 +26,9 @@ function AffinityDiagram({ answers }) {
 
   return (
     <div className="affinity-diagram-section">
-      <button onClick={fetchAffinityDiagram}>Generate Affinity Diagram</button>
+      <button className="loginBtn" onClick={fetchAffinityDiagram}>
+        Generate Affinity Diagram
+      </button>
       {affinityDiagramData && (
         <div className="affinity-diagram">
           {/* Assuming the affinity diagram data is an array of groups */}

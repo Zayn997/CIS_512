@@ -1,37 +1,16 @@
-import React from "react";
-import { useHistory } from "react-router-dom";
+import React, { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
+import Particles from "./Particles";
+import CanvasComponent from "./CanvasComponent";
+import BigNPC from "./BigNPC";
+import "./MainPage.css";
 
-function HomePage() {
-  const history = useHistory();
+function MainPage() {
+  const navigate = useNavigate();
 
   const startSurvey = () => {
-    history.push("/survey");
+    navigate("/survey");
   };
-  useEffect(() => {
-    const handleScroll = () => {
-      const contentPosition = document
-        .querySelector(".main-content")
-        .getBoundingClientRect().top;
-      const summaryPosition = document
-        .querySelector(".summary-section")
-        .getBoundingClientRect().top;
-      const windowHeight = window.innerHeight;
-
-      if (contentPosition < windowHeight) {
-        setContentVisible(true);
-      }
-
-      if (summaryPosition < windowHeight) {
-        setSummaryVisible(true);
-      }
-    };
-
-    window.addEventListener("scroll", handleScroll);
-
-    return () => {
-      window.removeEventListener("scroll", handleScroll);
-    };
-  }, []);
 
   return (
     <div className="homepage">
@@ -40,7 +19,7 @@ function HomePage() {
       <div className="big-npc">
         <BigNPC />
       </div>
-      <section className=" project-title">
+      <section className="project-title">
         <div class="title-content">
           <h2>Smart Questionaire</h2>
           <h2>Smart Questionaire</h2>
@@ -49,9 +28,13 @@ function HomePage() {
       <div className="auther-container">
         <h2>Designed by Chengpu Liao, Zayn Huang, Felix Sun</h2>
       </div>
-      <button onClick={startSurvey}>Start Survey</button>
+      <div className="survey-button">
+        <button className="start" onClick={startSurvey}>
+          Start Survey
+        </button>
+      </div>
     </div>
   );
 }
 
-export default HomePage;
+export default MainPage;

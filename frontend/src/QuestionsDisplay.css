@@ -153,13 +153,19 @@ body {
   animation: animate 10s linear infinite;
 }
 
-.g-title {
+.sub-title {
   visibility: visaible;
   transition: all 0.4s ease-in-out;
+  background-color: #ff008098;
+
+  padding: 10px;
+  border-radius: 10px;
+  color: rgb(255, 255, 255);
 }
 
-.g-title:hover {
+.sub-title:hover {
   font-size: 24px;
-  color: rgba(89, 140, 236, 0.562);
+  color: rgba(59, 109, 202, 0.815);
   transition: all 0.4s ease-in-out;
+  background-color: rgb(255, 255, 255);
 }

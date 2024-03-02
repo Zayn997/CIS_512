@@ -1,27 +1,36 @@
-import React, { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import React, { useState, useEffect } from "react";
 import TopicInput from "./TopicInput";
 import QuestionsDisplay from "./QuestionsDisplay";
 import SentimentNPC from "./SentimentNPC";
-import PersonalInfoInput from "./PersonalInfoInput";
-import ReactQuill from "react-quill";
+import "./App.css";
 import Particles from "./Particles";
 import CanvasComponent from "./CanvasComponent";
+import ReactQuill from "react-quill";
 import "react-quill/dist/quill.snow.css";
-import NavigationBar from "./NavigationBar";
-import "./SurveyPage.css";
+import BubbleEffect from "./BubbleEffect";
+import PersonalInfoInput from "./PersonalInfoInput";
+import BigNPC from "./BigNPC";
+import AffinityDiagram from "./AffinityDiagram";
+import ComparisonChart from "./ComparisonChart";
+import NavigationBar from "./NavigationBar"; // Make sure the path is correct
 
-function SurveyPage() {
+// import "./demo.css";
+
+function App() {
   const [questions, setQuestions] = useState([]);
   const [answers, setAnswers] = useState([]);
-  const [currentQuestion, setCurrentQuestion] = useState("");
-  const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
-  const [currentSentiment, setCurrentSentiment] = useState(0.5);
   const [currentInput, setCurrentInput] = useState("");
+  const [currentQuestion, setCurrentQuestion] = useState("");
+  const [currentSentiment, setCurrentSentiment] = useState(0.5);
+  const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
   const [keywordsCount, setKeywordsCount] = useState({});
+  const [summary, setSummary] = useState(""); // 用于存储摘要的状态
+  const [contentVisible, setContentVisible] = useState(false);
+  const [summaryVisible, setSummaryVisible] = useState(false);
+  const [priorityMatrix, setPriorityMatrix] = useState("");
+  const [affinityDiagram, setAffinityDiagram] = useState(null);
 
-  const navigate = useNavigate();
-
+  // Function to fetch generated questions from the backend based on the topic
   const fetchGeneratedQuestions = async (topic) => {
     try {
       const response = await fetch("http://127.0.0.1:5000/generateQuestions", {
@@ -101,6 +110,67 @@ function SurveyPage() {
     }
   };
 
+  // summary
+  const handleGenerateSummary = async () => {
+    // Construct the array of texts from the answers
+    const allAnswersTexts = answers.map((answerObj) => answerObj.text);
+
+    try {
+      const response = await fetch("http://127.0.0.1:5000/summarizeAnswers", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        // Send the array of texts
+        body: JSON.stringify({ text: allAnswersTexts }),
+      });
+      const data = await response.json();
+      setSummary(data.summary); // Update the state with the summary
+    } catch (error) {
+      console.error("Error generating summary:", error);
+    }
+  };
+
+  const fetchPriorityMatrix = async () => {
+    const user_answers = answers.map((answerObj) => answerObj.text);
+
+    try {
+      const response = await fetch(
+        "http://127.0.0.1:5000/generatePriorityMatrix",
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({ text: user_answers }),
+        }
+      );
+      const data = await response.json();
+      setPriorityMatrix(data.priorityMatrix);
+    } catch (error) {
+      console.error("Error fetching priority matrix:", error);
+    }
+  };
+
+  const fetchAffinityDiagram = async () => {
+    try {
+      const response = await fetch(
+        "http://127.0.0.1:5000/generateAffinityDiagram",
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({ text: answers.map((answer) => answer.text) }),
+        }
+      );
+      const data = await response.json();
+      setAffinityDiagram(data.affinity_diagram);
+    } catch (error) {
+      console.error("Error fetching affinity diagram:", error);
+    }
+  };
+
   // Function to get a random color
   const getRandomColor = () => {
     const letters = "0123456789ABCDEF";
@@ -111,16 +181,54 @@ function SurveyPage() {
     return color;
   };
 
-  const finishSurvey = () => {
-    navigate("/results", { answers });
-  };
+  useEffect(() => {
+    const handleScroll = () => {
+      const contentPosition = document
+        .querySelector(".main-content")
+        .getBoundingClientRect().top;
+      const summaryPosition = document
+        .querySelector(".summary-section")
+        .getBoundingClientRect().top;
+      const windowHeight = window.innerHeight;
+
+      if (contentPosition < windowHeight) {
+        setContentVisible(true);
+      }
+
+      if (summaryPosition < windowHeight) {
+        setSummaryVisible(true);
+      }
+    };
+
+    window.addEventListener("scroll", handleScroll);
+
+    return () => {
+      window.removeEventListener("scroll", handleScroll);
+    };
+  }, []);
 
   return (
-    <div className="surveypage">
+    <div className="App">
       <Particles />
       <CanvasComponent /> {/* This is the background canvas */}
       <NavigationBar />
-      <div className="survey-container">
+      <div className="big-npc">
+        <BigNPC />
+      </div>
+      <section className=" project-title">
+        <div class="title-content">
+          <h2>Smart Questionaire</h2>
+          <h2>Smart Questionaire</h2>
+        </div>
+      </section>
+      <div className="auther-container">
+        <h2>Designed by Chengpu Liao, Zayn Huang, Felix Sun</h2>
+      </div>
+      <div
+        className={`main-content ${
+          contentVisible ? "slide-in visible" : "slide-in"
+        }`}
+      >
         <div className="content-1">
           <div className="topic-input-wrapper">
             <TopicInput onGenerate={fetchGeneratedQuestions} />
@@ -136,9 +244,10 @@ function SurveyPage() {
             />
           </div>
         </div>
+
         <div className="content-2">
           <div className="current-question">
-            <h2 className="sub-title">Current Question</h2>
+            <h2>Current Question</h2>
             <div className="current-q-content">
               <p className="current-q">{currentQuestion}</p>
             </div>
@@ -160,10 +269,9 @@ function SurveyPage() {
             </button>
           </div>
         </div>
-
         <div className="keywords-summary">
           <div className="keywords-title">
-            <h2 className="sub-title">Keywords Summary</h2>
+            <h2>Keywords Summary</h2>
           </div>
           <div className="keywords-container">
             <div className="keywords-section">
@@ -179,12 +287,45 @@ function SurveyPage() {
             </div>
           </div>
         </div>
-        {currentQuestionIndex === questions.length - 1 && (
-          <button onClick={finishSurvey}>Finish Survey</button>
-        )}
+        <div
+          className={`summary-section ${
+            summaryVisible ? "slide-in visible" : "slide-in"
+          }`}
+        >
+          <div className="summary-title">
+            {currentQuestionIndex >= questions.length - 1 && (
+              <button className="loginBtn" onClick={handleGenerateSummary}>
+                Generate Summary
+              </button>
+            )}
+          </div>
+          <div className="summary-content">
+            {summary && (
+              <div className="summary-text" data-lit-hue="210">
+                {summary}
+                <BubbleEffect className="summary-bubble-effect" />
+              </div>
+            )}
+          </div>
+        </div>
+        <div className="matrix">
+          <button onClick={fetchPriorityMatrix}>
+            Generate Priority Matrix
+          </button>
+          {priorityMatrix && <div>{priorityMatrix}</div>}
+        </div>
+        <div className="affinity-diagram">
+          <button onClick={fetchAffinityDiagram}>
+            Generate Affinity Diagram
+          </button>
+          {affinityDiagram && <AffinityDiagram data={affinityDiagram} />}
+        </div>
+        <div className="compare-chart">
+          <ComparisonChart answers={answers.map((answer) => answer.text)} />
+        </div>
       </div>
     </div>
   );
 }
 
-export default SurveyPage;
+export default App;

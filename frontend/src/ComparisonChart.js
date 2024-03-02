@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { Bar } from "react-chartjs-2";
+import "./ComparisonChart.css";
 
 const ComparisonChart = ({ answers }) => {
   const [chartData, setChartData] = useState(null);
@@ -51,8 +52,10 @@ const ComparisonChart = ({ answers }) => {
   };
 
   return (
-    <div>
-      <button onClick={fetchComparisonData}>Generate Comparison Chart</button>
+    <div className="comparison-container">
+      <button className="loginBtn" onClick={fetchComparisonData}>
+        Generate Comparison Chart
+      </button>
       {chartData && (
         <Bar
           data={chartData}

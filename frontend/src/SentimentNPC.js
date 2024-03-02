@@ -26,7 +26,7 @@ function SentimentNPC({ sentiment }) {
   }, []);
 
   const npcStyles = {
-    transform: `scale(${1 + sentiment * 2})`,
+    transform: `scale(${1 + sentiment * 2.2})`,
     opacity: isVisible ? 1 : 0,
     transition: "opacity 1s ease-in-out",
   };

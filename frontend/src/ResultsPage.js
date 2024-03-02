@@ -4,10 +4,14 @@ import AffinityDiagram from "./AffinityDiagram";
 import ComparisonChart from "./ComparisonChart";
 import PriorityMatrix from "./PriorityMatrix";
 import "./ResultsPage.css"; // Make sure to create this CSS file for styling
+import BubbleEffect from "./BubbleEffect";
+import Particles from "./Particles";
+import CanvasComponent from "./CanvasComponent";
+import NavigationBar from "./NavigationBar";
 
 function ResultsPage() {
   const location = useLocation();
-  const { answers } = location.state;
+  const { answers = [] } = location.state || {}; // Add this line
   const [summary, setSummary] = useState("");
   const [contentVisible, setContentVisible] = useState(false);
   const [summaryVisible, setSummaryVisible] = useState(false);
@@ -61,6 +65,7 @@ function ResultsPage() {
     <div className="rusultspage">
       <Particles />
       <CanvasComponent /> {/* This is the background canvas */}
+      <NavigationBar />
       <div className="result-container">
         <div
           className={`summary-section ${
@@ -81,12 +86,12 @@ function ResultsPage() {
             )}
           </div>
         </div>
+        <h2 className="sub-title">Chart Diagram</h2>
         <div
           className={`chart-container ${
             contentVisible ? "slide-in visible" : "slide-in"
           }`}
         >
-          <h1>Chart Diagram</h1>
           <div className="chart">
             <AffinityDiagram answers={answers} />
           </div>

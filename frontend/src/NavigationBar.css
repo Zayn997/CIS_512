@@ -89,16 +89,28 @@ body {
   color: #ffffff;
 }
 .fa-user {
-  margin-left: 10px;
+  margin-top: 10px;
+  margin-left: 20px;
   color: #432863;
   transition: all 0.3s ease-in-out;
+  font-size: 30px;
 }
 
 .fa-user:hover {
-  padding: 10px;
   border-radius: 50%;
-  color: #ffffff;
+  color: #e7e3eb;
   background-color: #432863;
-  padding: 10px;
   border-radius: 50%;
+}
+
+.title-link {
+  text-decoration: none;
+  color: inherit; /* This will make the link inherit the color of the surrounding text */
+}
+
+.navigation-buttons {
+  align-items: center;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
 }
