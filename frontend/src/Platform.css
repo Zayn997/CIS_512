@@ -48,6 +48,7 @@
 }
 
 .stat-send {
+  color: #9fa2b4;
   background-color: #fff;
   padding: 10px;
   border-radius: 10px;
@@ -62,7 +63,8 @@
   margin: 10px 0;
 }
 
-.stat {
+.stat-response {
+  color: #9fa2b4;
   background-color: #fff;
   padding: 10px;
   border-radius: 10px;
@@ -70,10 +72,57 @@
   box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
 }
 
-.stat strong {
+.stat-response strong {
+  display: block;
+  font-size: 24px;
+  color: #138f58;
+  margin: 10px 0;
+}
+
+.stat-pend {
+  color: #9fa2b4;
+  background-color: #fff;
+  padding: 10px;
+  border-radius: 10px;
+  text-align: center;
+  box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
+}
+
+.stat-pend strong {
+  display: block;
+  font-size: 24px;
+  color: #ce9f0f;
+  margin: 10px 0;
+}
+
+.stat {
+  background-color: #0a84ff;
+  color: #ffffff;
+  padding: 10px;
+  border-radius: 10px;
+  text-align: center;
+  /* box-shadow: 0 0 5px rgba(0, 0, 0, 0.1); */
+}
+
+.stat-1 {
+  color: #9fa2b4;
+  background-color: #fff;
+  padding: 10px;
+  border-radius: 10px;
+  text-align: center;
+  box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
+}
+.stat-1 strong {
   display: block;
   font-size: 24px;
   color: #007bff;
+  margin: 10px 0;
+}
+
+.stat strong {
+  display: block;
+  font-size: 24px;
+  color: #ffffff;
   margin: 10px 0;
 }
 
@@ -129,4 +178,19 @@
   .stat-grid {
     grid-template-columns: 1fr;
   }
+}
+
+.semi-card {
+  display: flex;
+  flex-direction: column;
+}
+
+.first-three {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-evenly;
+  padding: 10px;
+  background-color: #0a84ff;
+  border-top-left-radius: 8px;
+  border-top-right-radius: 8px;
 }

@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import SideBar from "./SideBar";
 import "./Platform.css"; // This will be your CSS file for styling
-
+import CompletionCircle from "./CompletionCircle";
 const Platform = () => {
   const [surveyStats, setSurveyStats] = useState({
     surveysSent: 0,
@@ -54,33 +54,39 @@ const Platform = () => {
             <span>Survey Send</span>
             <strong>{surveyStats.surveysSent}</strong>
           </div>
-          <div className="stat">
+          <div className="stat-response">
             <span>Response Received</span>
             <strong>{surveyStats.responsesReceived}</strong>
           </div>
-          <div className="stat">
+          <div className="stat-pend">
             <span>Response Pending</span>
             <strong>{surveyStats.responsesPending}</strong>
           </div>
-          <div className="stat">
-            <span>Average Time</span>
-            <strong>{surveyStats.averageTime}</strong>
-          </div>
-          <div className="stat">
-            <span>Completion Rate</span>
-            <div className="completion-rate">
-              <div className="completion-circle">
-                <span>{surveyStats.completionRate}</span>
+          <div className="semi-card">
+            <div className="first-three">
+              <div className="stat">
+                <span>Average Time</span>
+                <strong>{surveyStats.averageTime}</strong>
+              </div>
+              <div className="stat">
+                <span>Completion Rate</span>
+                <div className="completion-rate">
+                  <div className="completion-circle">
+                    <span>{surveyStats.completionRate}</span>
+                  </div>
+                </div>
+              </div>
+              <div className="stat">
+                <span>Last Responses</span>
+                <strong>{surveyStats.lastResponseTime}</strong>
               </div>
             </div>
-          </div>
-          <div className="stat">
-            <span>Last Responses</span>
-            <strong>{surveyStats.lastResponseTime}</strong>
-          </div>
-          <div className="stat">
-            <span>Total Responses</span>
-            <strong>{surveyStats.totalResponses}%</strong>
+            <div className="last-one">
+              <div className="stat-1">
+                <span>Total Responses</span>
+                <strong>{surveyStats.totalResponses}%</strong>
+              </div>
+            </div>
           </div>
         </div>
         <button className="add-project-btn">Add New Project</button>
