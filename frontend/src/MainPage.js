@@ -3,6 +3,7 @@ import { useNavigate } from "react-router-dom";
 import Particles from "./Particles";
 import CanvasComponent from "./CanvasComponent";
 import BigNPC from "./BigNPC";
+import { FaInfoCircle } from "react-icons/fa"; // Using React Icons for the 'i' icon
 import "./MainPage.css";
 
 function MainPage() {
@@ -10,6 +11,10 @@ function MainPage() {
 
   const startSurvey = () => {
     navigate("/survey");
+  };
+
+  const platformNavi = () => {
+    navigate("/platform");
   };
 
   return (
@@ -26,7 +31,12 @@ function MainPage() {
         </div>
       </section>
       <div className="auther-container">
-        <h2>Designed by Chengpu Liao, Zayn Huang, Felix Sun</h2>
+        <h3>Designed by Chengpu Liao, Zayn Huang, Felix Sun</h3>
+      </div>
+      <div className="platform-page">
+        <button onClick={platformNavi} className="icon-button">
+          <FaInfoCircle />
+        </button>
       </div>
       <div className="survey-button">
         <button className="start" onClick={startSurvey}>

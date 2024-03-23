@@ -234,5 +234,20 @@ def generate_comparison_data():
     return jsonify({'insights': insights})
 
 
+@app.route('/getSurveyStats', methods=['GET'])
+def get_survey_stats():
+    # Your logic here to get real-time stats, for example:
+    stats = {
+        'surveysSent': 60,
+        'responsesReceived': 42,
+        'responsesPending': 18,
+        'averageTime': '15m 32s',
+        'completionRate': '84.2%',
+        'lastResponseTime': 'Mar. 22 4:50pm',
+        'totalResponses': 94
+    }
+    return jsonify(stats)
+
+
 if __name__ == '__main__':
     app.run(debug=True)

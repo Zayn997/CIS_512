@@ -6,7 +6,7 @@ import "./NavigationBar.css"; // Importing the CSS file
 const NavigationBar = () => {
   return (
     <header className="navigation-header">
-      <Link to="/" className="title-link">
+      <Link to="/main" className="title-link">
         <h2 className="survey-name">Smart Survey</h2>
       </Link>
 

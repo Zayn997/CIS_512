@@ -138,7 +138,7 @@ function SurveyPage() {
         </div>
         <div className="content-2">
           <div className="current-question">
-            <h2 className="sub-title">Current Question</h2>
+            <h3 className="sub-title">Current Question</h3>
             <div className="current-q-content">
               <p className="current-q">{currentQuestion}</p>
             </div>
@@ -163,7 +163,7 @@ function SurveyPage() {
 
         <div className="keywords-summary">
           <div className="keywords-title">
-            <h2 className="sub-title">Keywords Summary</h2>
+            <h3 className="sub-title">Keywords Summary</h3>
           </div>
           <div className="keywords-container">
             <div className="keywords-section">

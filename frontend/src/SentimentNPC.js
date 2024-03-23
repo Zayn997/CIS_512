@@ -2,7 +2,8 @@ import React, { useState, useEffect } from "react";
 import "./SentimentNPC.css";
 
 function SentimentNPC({ sentiment }) {
-  const [isVisible, setIsVisible] = useState(false);
+  //the first I use false, in the future we can check
+  const [isVisible, setIsVisible] = useState(true);
 
   useEffect(() => {
     const handleScroll = () => {

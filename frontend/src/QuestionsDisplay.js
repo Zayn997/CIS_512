@@ -12,7 +12,7 @@ function QuestionsDisplay({
   return (
     <div className="displayed-questions">
       <div className="title">
-        <h2 className="sub-title">Generated Questions</h2>
+        <h3 className="sub-title">Generated Questions</h3>
       </div>
       <div className="main">
         {currentSet.map((question, index) => (

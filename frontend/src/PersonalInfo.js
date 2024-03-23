@@ -11,7 +11,7 @@ function PersonalInfo() {
     <div className="personal-info-page">
       <NavigationBar />
       <div className="information-container">
-        <h1 className="sub-title">Personal Information</h1>
+        <h3 className="sub-title">Personal Information</h3>
         <div className="personal-info-content">
           {personalInfo ? (
             <div dangerouslySetInnerHTML={{ __html: personalInfo }}></div>
